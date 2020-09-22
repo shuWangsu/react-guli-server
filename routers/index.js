@@ -313,9 +313,16 @@ router.post('/manage/role/update', (req, res) => {
 // 获取当前所在城市
 router.get('/getcity', (req, res) => {
   request('http://pv.sohu.com/cityjson?ie=utf-8',(err,res1,body) => {
-    const city = body.substring(19,79)
-    const value = JSON.parse(city)
-    res.send(city)
+    if (body.indexOf('CHINA') > -1) {
+      const city = body.substring(19,76)
+      const value = JSON.parse(city)
+      value.cname = '北京'
+      res.send(value)
+    } else {
+      const city = body.substring(19,79)
+      const value = JSON.parse(city)
+      res.send(value)
+    }
   })
 })
 
